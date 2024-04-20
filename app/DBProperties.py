@@ -1,6 +1,6 @@
 from jproperties import Properties
 
-class AppProperties(Properties):
+class DBProperties(Properties):
     def __init__(self):
         super().__init__(self)
         with open('../config/database.properties', 'rb') as config_file:

@@ -1,9 +1,9 @@
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from AppProperties import AppProperties
+from DBProperties import DBProperties
 
-props = AppProperties()
+props = DBProperties()
 DBNAME = props.get_db_name()
 USER = props.get_db_user()
 PASSWORD = props.get_db_password()
