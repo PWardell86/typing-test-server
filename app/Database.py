@@ -1,11 +1,13 @@
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+from DBProperties import DBProperties
 
-DBNAME = "typingtestDB"
-USER = "typingtestadmin"
-PASSWORD = "nutballs"
-HOST = "localhost"
+props = DBProperties()
+DBNAME = props.get_db_name()
+USER = props.get_db_user()
+PASSWORD = props.get_db_password()
+HOST = props.get_db_host()
 
 def init_db(name=DBNAME):
     conn = psycopg2.connect(dbname='postgres', user=USER, password=PASSWORD, host=HOST)

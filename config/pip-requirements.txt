@@ -1,0 +1,6 @@
+jproperties==2.1.1
+gunicorn==21.2.0
+Flask==3.0.1
+Flask-Cors==4.0.0
+jsonify==0.5
+psycopg2-binary==2.9.9

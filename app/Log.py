@@ -1,4 +1,10 @@
 import logging
+import os
+
+try:
+    os.mkdir("../log")
+except FileExistsError:
+    pass
 
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 file_handler = logging.FileHandler("../log/app.log")
