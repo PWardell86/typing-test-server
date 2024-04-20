@@ -1,6 +1,5 @@
 import secrets
 from datetime import datetime
-from queue import Queue
 from random import randint
 
 import Database as db
@@ -147,32 +146,3 @@ def api_get_leaderboard():
     with DB_READER as cursor:
         return queries.get_leaderboard(cursor, lb_type, max_rows), 200
     return "Failed to get leaderboard", 400
-
-player_queue = Queue()
-players_in_queue = {}
-
-@app.route(API + '/joinqueue', methods=['POST'])
-def api_join_queue():
-    token = get_json('token')[0]
-    token_data = jwt.decode(token, secret_key, algorithms=["HS256"])
-    if not is_token_expired(token_data):
-        return "Token expired", 401
-    if token in players_in_queue:
-        return "Already in Queue", 200
-    players_in_queue[token] = True
-    player_queue.put(token)
-
-@app.route(API + '/leavequeue', methods=['POST'])
-def api_leave_queue():
-    token = get_json('token')[0]
-    token_data = jwt.decode(token, secret_key, algorithms=["HS256"])
-    if not is_token_expired(token_data):
-        return "Token expired", 401
-    if token not in players_in_queue:
-        return "Player isn't in queue", 200
-    players_in_queue.pop(token)
-
-@app.route(API + '/getmatch', methods=['POST'])
-def api_get_match():
-    token = get_json('token')[0]
-    token_data = jwt.decode(token, secret_key, algorithms=["HS256"])
