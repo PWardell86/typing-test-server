@@ -7,14 +7,13 @@ class DBProperties(Properties):
             self.load(config_file)
     
     def get_db_name(self):
-        return self.get("db_name")
+        return self.get("db_name").data
     
     def get_db_user(self):
-        return self.get("db_user")
+        return self.get("db_user").data
     
     def get_db_password(self):
-        return self.get("db_password")
+        return self.get("db_password").data
     
     def get_db_host(self):
-        return self.get("db_host")
-
+        return self.get("db_host").data
