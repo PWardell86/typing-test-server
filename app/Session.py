@@ -7,14 +7,24 @@ class Session:
         self.buff1 = []
         self.buff2 = []
     
-    def write_buffer(self, client_id: str, msg: str) -> None:
+    def write_buffer(self, client_id, msg, overwrite=False):
         if len(msg) == 0: return
+        if not overwrite:
+            if client_id == self.c1_id:
+                self.buff1.append(msg)
+                return 
+            self.buff2.append(msg)
+            return
         if client_id == self.c1_id:
-            self.buff1.append(msg)
-            return 
-        self.buff2.append(msg)
+            self.buff1 = [msg]
+            return
+        self.buff2 = [msg]
 
     def read_buffer(self, client_id: str) -> str:
         if client_id == self.c2_id:
-            return self.buff1
-        return self.buff2
+            copy = self.buff2.copy()
+            self.buff2 = []
+            return copy
+        copy = self.buff1.copy()
+        self.buff1 = []
+        return copy
