@@ -50,7 +50,7 @@ def add_score(cursor, username, wpm, accuracy, elapsed_time):
 def get_leaderboard(cursor, lb_type, max_rows):
     if lb_type == "wpm":
         query = f"""
-            SELECT uo.username, uo.display_name, score.wpm 
+            SELECT DISTINCT uo.username, uo.display_name, score.wpm 
             FROM user_options uo, user_score score 
             WHERE score.username = uo.username
                 AND score.wpm >= ALL (

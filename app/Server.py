@@ -6,6 +6,7 @@ import Database as db
 import encryption
 import jwt
 import psycopg2.extras
+import psycopg2.errors as DBErrors
 import queries
 from DBReaderWriter import DBReaderWriter
 from ServerUtil import get_json
@@ -40,7 +41,10 @@ def api_create_user():
     with DB_WRITER as cursor:
         username, password = get_json('username', 'password')
         salt, hashed_password = encryption.get_salt_hash(password)
-        queries.create_user(cursor, username, hashed_password, salt)
+        try:
+            queries.create_user(cursor, username, hashed_password, salt)
+        except DBErrors.UniqueViolation  as e:
+            return "Username is taken", 400
         LOG.info(f"User {username} created")
         return "User created successfully", 200
     return "Error creating user", 400
@@ -142,7 +146,10 @@ def api_get_paragraph():
 
 @app.route(API + '/getleaderboard', methods=['POST'])
 def api_get_leaderboard():
+    # I should change how checking logged in status works, so just ddont check for now
+
     lb_type, max_rows = get_json('type', 'max_rows')
     with DB_READER as cursor:
         return queries.get_leaderboard(cursor, lb_type, max_rows), 200
     return "Failed to get leaderboard", 400
+
